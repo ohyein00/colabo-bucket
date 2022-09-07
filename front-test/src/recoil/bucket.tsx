@@ -1,6 +1,16 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 
-export const userBucket = atom<string | null>({
-  key: 'userBucket',
+type UserItemsBucketType = {
+  items: string[],
+}
+type UserDiscountBucketType = {
+  [index: string]: string[]
+}
+export const userItemsBucket = atom<UserItemsBucketType | null>({
+  key: 'userItemsBucket',
+  default: null,
+});
+export const userDiscountBucket = atom<UserDiscountBucketType | null>({
+  key: 'userDiscountBucket',
   default: null,
 });

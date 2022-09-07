@@ -2,23 +2,15 @@ import React, {useEffect, useState} from "react";
 import AddItemTemplate from "../../templates/AddItemTemplate";
 import {BucketResponse, DiscountDto} from "../../types/bucketItemType";
 import {getItems} from "../../service/itemsApi";
+import {useItemsApi} from "../../hooks/useQueryHooks";
 
 const DiscountListPage = () => {
   const [items,setItems] = useState<DiscountDto>({})
-  useEffect(() => {
-    (async () => {
-        try {
-          const res = await getItems<BucketResponse>()
-          setItems(res.discounts)
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    )()
-  }, [])
+  const {useGetItemsQuery} = useItemsApi()
+  const {data} = useGetItemsQuery<BucketResponse>()
   return (
     <>
-      <AddItemTemplate discountList={items}/>
+      <AddItemTemplate discountList={data?.discounts}/>
     </>
   )
 }

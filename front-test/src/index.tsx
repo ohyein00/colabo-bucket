@@ -5,15 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from "./assets/css/Globalstyle";
 import {BrowserRouter} from "react-router-dom";
-
+import {QueryClient,QueryClientProvider} from "react-query";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
       <GlobalStyles/>
       <App/>
+      </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

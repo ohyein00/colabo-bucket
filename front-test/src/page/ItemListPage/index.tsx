@@ -1,28 +1,19 @@
 import React, {useEffect,useState} from "react";
-import * as S from './index.styles'
 import PopupHeader from "../../components/organims/PopupHedaer";
 import AddItemTemplate from "../../templates/AddItemTemplate";
-import {getItems} from "../../service/itemsApi";
 import {BucketResponse, ItemsDto} from "../../types/bucketItemType";
+import {useItemsApi} from "../../hooks/useQueryHooks";
 
 const ItemListPage = () => {
   const [items,setItems] = useState<ItemsDto>({})
-  useEffect(() => {
-    (async () => {
-        try {
-          const res = await getItems<BucketResponse>()
-          setItems(res.items)
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    )()
-  }, [])
+  const {useGetItemsQuery} = useItemsApi()
+  const {data} = useGetItemsQuery<BucketResponse>()
+
   return (
     <>
       <PopupHeader/>
       {/*form*/}
-      <AddItemTemplate itemList={items}/>
+      <AddItemTemplate itemList={data?.items}/>
     </>
   )
 }

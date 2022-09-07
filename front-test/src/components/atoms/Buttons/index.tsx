@@ -7,7 +7,7 @@ export type ButtonsProps = {
   onClick?: () => void;
   id?: string;
   styled?: React.CSSProperties;
-
+  colorType?:'gray'|'pink'|'purple';
   [prop: string]: any;
 }
 
@@ -19,7 +19,7 @@ export const StyledButton = styled.button<{ styled?: React.CSSProperties; colorT
   border: ${props => props.styled?.border ? props.styled?.border : 'none'};
   font-size: ${props => props.styled?.fontSize ? props.styled?.fontSize : '1.2rem'};
   ${(props) => {
-    if (props.colorType && props.colorType === 'gray') {
+    if (props.colorType && props.colorType === 'purple') {
       return css`
         background:${Color.purple};
         color:${Color.white};
@@ -31,7 +31,7 @@ export const StyledButton = styled.button<{ styled?: React.CSSProperties; colorT
         color: ${Color.darkPink}
       `;
     }
-    if (props.colorType && props.colorType === 'purple') {
+    if (props.colorType && props.colorType === 'gray') {
       return css`
         background: ${Color.lightGrey};
         color: ${Color.darkGrey}
