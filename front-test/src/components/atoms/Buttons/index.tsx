@@ -18,6 +18,7 @@ export const StyledButton = styled.button<{ styled?: React.CSSProperties; colorT
   padding: ${props => props.styled?.padding ? props.styled?.padding : '7px 20px'};
   border: ${props => props.styled?.border ? props.styled?.border : 'none'};
   font-size: ${props => props.styled?.fontSize ? props.styled?.fontSize : '1.2rem'};
+  cursor:pointer;
   ${(props) => {
     if (props.colorType && props.colorType === 'purple') {
       return css`

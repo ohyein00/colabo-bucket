@@ -11,8 +11,10 @@ const BucketHeader = () => {
   return (
     <>
       <S.Container>
+        <S.ButtonArea>
         <Buttons onClick={()=>onClick('/items')} styled={{fontSize: '0.8rem'}} colorType='gray'>시술</Buttons>
-        <Buttons onClick={()=>onClick('/discount')} styled={{fontSize: '0.8rem'}} colorType='pink'>시술</Buttons>
+        <Buttons onClick={()=>onClick('/discount')} styled={{fontSize: '0.8rem'}} colorType='pink'>할인</Buttons>
+        </S.ButtonArea>
       </S.Container>
     </>
   )

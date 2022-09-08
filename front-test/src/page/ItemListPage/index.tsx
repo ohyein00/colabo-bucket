@@ -2,12 +2,12 @@ import React, {useEffect,useState} from "react";
 import PopupHeader from "../../components/organims/PopupHedaer";
 import AddItemTemplate from "../../templates/AddItemTemplate";
 import {BucketResponse, ItemsDto} from "../../types/bucketItemType";
-import {useItemsApi} from "../../hooks/useQueryHooks";
+import {UseItemsApi} from "../../hooks/UseQueryHooks";
 
 const ItemListPage = () => {
   const [items,setItems] = useState<ItemsDto>({})
-  const {useGetItemsQuery} = useItemsApi()
-  const {data} = useGetItemsQuery<BucketResponse>()
+  const {UseGetItemsQuery} = UseItemsApi()
+  const {data} = UseGetItemsQuery<BucketResponse>()
 
   return (
     <>

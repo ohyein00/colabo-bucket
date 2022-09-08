@@ -2,8 +2,8 @@
 import {useQuery} from "react-query";
 import {getItems} from "../service/itemsApi";
 
-export const useItemsApi = () => {
-  const useGetItemsQuery = <T>() =>
+export const UseItemsApi = () => {
+  const UseGetItemsQuery = <T>() =>
     useQuery<T>(
       ['items'],
       () => getItems(),
@@ -17,5 +17,5 @@ export const useItemsApi = () => {
         },
       },
     );
-  return { useGetItemsQuery };
+  return { UseGetItemsQuery };
 };

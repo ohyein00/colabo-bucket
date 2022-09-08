@@ -4,6 +4,6 @@ export const Color = {
   darkGrey: '#7c7c7c',
   lightGrey: '#efefef',
   purple:'#835ece',
-  lightPink:'#eeb1d4',
-  darkPink:'#c56788',
+  lightPink:'#ffd4e5',
+  darkPink:'#cc1a56',
 }

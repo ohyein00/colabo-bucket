@@ -4,6 +4,9 @@ export const Container = styled.div`
 
 `
 export const InputArea = styled.div`
+  label{
+    cursor: pointer;
+  }
 `
 export const Input = styled.input`
   width: 0;

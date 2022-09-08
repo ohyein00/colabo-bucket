@@ -2,8 +2,8 @@ import React, {FormEvent, useState} from "react";
 import ItemCheckBox from "../../molcules/ItemCheckBox";
 import {DiscountDto, ItemsDto} from "../../../types/bucketItemType";
 import Buttons from "../../atoms/Buttons";
-import {useSetRecoilState} from "recoil";
-import {userItemsBucket} from "../../../recoil/bucket";
+import {useSetRecoilState, useRecoilState, useRecoilSnapshot} from "recoil";
+import {calcBucketDiscount, UserDiscountBucketType, userItemsBucket, UserItemsBucketType} from "../../../recoil/bucket";
 import {userDiscountBucket} from "../../../recoil/bucket";
 import {useNavigate} from "react-router-dom";
 
@@ -15,25 +15,38 @@ type ItemListFormProps = {
 const ItemListForm = (props: ItemListFormProps) => {
   const {itemList, discountList} = props
   const navigate = useNavigate()
-  const [itemCheckedList, setItemCheckedList] = useState<string[]>([])
-  const [DiscountCheckedList, setDiscountCheckedList] = useState<string[]>([])
-  const setUserItemsBucket = useSetRecoilState(userItemsBucket)
-  const setUserDiscountBucket = useSetRecoilState(userDiscountBucket)
+  const [userItemsBucketVal,setUserItemsBucket] = useRecoilState(userItemsBucket)
+  const [userDiscountBucketVal,setUserDiscountBucket] = useRecoilState(userDiscountBucket)
+  const setCaclBucket = useSetRecoilState(calcBucketDiscount(''))
+  const [itemCheckedList, setItemCheckedList] = useState<string[]>(Object.keys(userItemsBucketVal) || [])
+  const [DiscountCheckedList, setDiscountCheckedList] = useState<string[]>(Object.keys(userDiscountBucketVal) || [])
+
+  const snapshot = useRecoilSnapshot();
 
   const onsubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (itemList) {
-      setUserItemsBucket({items: [...itemCheckedList]})
+    if (itemList && itemCheckedList) {
+      const itemsInitialData:UserItemsBucketType = {}
+      itemCheckedList.forEach((item) => {
+        if(!itemsInitialData[item]) { /* 기존에 없는 아이템일 경우 갯수 하나씩 기본으로 담아주기 */
+          itemsInitialData[item] = {count: 1,name:itemList[item].name,price:itemList[item].price,totalPrice:itemList[item].price}
+        }
+      })
+      setUserItemsBucket(itemsInitialData)
     }
-    if (discountList) {
+    if (discountList && DiscountCheckedList) {
       /* 현재 버킷 아이템들 기본으로 담아주기 */
-      const discountInitialData:{[key:string]:string[]} = {}
+      const discountInitialData:UserDiscountBucketType = {}
       DiscountCheckedList.forEach((item) => {
-        discountInitialData[item] = itemCheckedList
+        /* 기존에 담은 할인 대상이 있을 경우 */
+        if(userDiscountBucketVal[item]){
+          discountInitialData[item] = {discountItemList:userDiscountBucketVal[item].discountItemList}
+        }else{
+          discountInitialData[item] = {discountItemList:itemCheckedList}
+        }
       })
       setUserDiscountBucket(discountInitialData)
     }
-
     navigate(-1)
   }
   return (

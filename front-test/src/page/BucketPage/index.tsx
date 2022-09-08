@@ -5,7 +5,7 @@ import Buttons from "../../components/atoms/Buttons";
 import ItemCheckBox from "../../components/molcules/ItemCheckBox";
 import {useRecoilValue} from "recoil";
 import {userDiscountBucket, userItemsBucket} from "../../recoil/bucket";
-import {useItemsApi} from "../../hooks/useQueryHooks";
+import {UseItemsApi} from "../../hooks/UseQueryHooks";
 import {BucketResponse} from "../../types/bucketItemType";
 import BucketList from "../../components/organims/BucketList";
 
