@@ -6,6 +6,6 @@ export const Container = styled.div`
 `
 
 export const ItemArea = styled.div`
-display:flex;
+  display:flex;
   justify-content: space-between;
 `

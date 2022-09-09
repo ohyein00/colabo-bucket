@@ -12,12 +12,14 @@ export type ButtonsProps = {
 }
 
 export const StyledButton = styled.button<{ styled?: React.CSSProperties; colorType?:'gray'|'pink'|'purple'}>`
-  display:${props => props.styled?.display ? props.styled?.display : 'inline-block'};
-  background:${props => props.styled?.background ? props.styled?.background : '#835ece'};
-  color: ${props => props.styled?.color ? props.styled?.color : '#fff'};
-  padding: ${props => props.styled?.padding ? props.styled?.padding : '7px 20px'};
-  border: ${props => props.styled?.border ? props.styled?.border : 'none'};
-  font-size: ${props => props.styled?.fontSize ? props.styled?.fontSize : '1.2rem'};
+  display:${props => props.styled?.display || 'inline-block'};
+  background:${props => props.styled?.background || '#835ece'};
+  color: ${props => props.styled?.color || '#fff'};
+  padding: ${props => props.styled?.padding || '7px 20px'};
+  border: ${props => props.styled?.border || 'none'};
+  font-size: ${props => props.styled?.fontSize || '1.2rem'};
+  width: ${props => props.styled?.width || 'auto'};
+  margin:${props => props.styled?.margin || 'initial'};
   cursor:pointer;
   ${(props) => {
     if (props.colorType && props.colorType === 'purple') {

@@ -121,7 +121,7 @@ const ItemListForm = (props: ItemListFormProps) => {
             <DiscountCheckBoxArea id={item} key={item}/>
           ))
         }
-        <Buttons>완료</Buttons>
+        <Buttons styled={{display:"block",width:'100%',margin:'15px 0 0 0',padding:'15px 20px'}}>완료</Buttons>
       </form>
     </>
   )

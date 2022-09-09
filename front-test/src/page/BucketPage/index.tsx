@@ -10,11 +10,11 @@ const BucketPage = () => {
 
   return (
     <>
-
+      <S.Wrapper>
       <S.Container>
         <BucketTemplate/>
       </S.Container>
-
+      </S.Wrapper>
 
     </>
   )

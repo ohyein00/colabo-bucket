@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {Color} from "../../../contants/Color";
 
 export const Container = styled.div`
+  display:flex;
+  justify-content: space-between;
   width:100%;
 `
 export const Title = styled.h5`

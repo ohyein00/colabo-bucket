@@ -8,7 +8,7 @@ import {
 } from "recoil";
 
 import {
-  bucketItemsQuery, bucketItemType, discountItemCount, discountItemListType, discountItemsQuery,
+  bucketItemType, discountItemCount, discountItemListType, discountItemsQuery,
 } from "../../../recoil/bucket";
 import {BucketResponse} from "../../../types/bucketItemType";
 import UseCurrency from "../../../hooks/UseCurrency";
@@ -16,7 +16,6 @@ import {UseItemsApi} from "../../../hooks/UseQueryHooks";
 import PopoverArea from "../PopoverArea";
 import Buttons from "../../atoms/Buttons";
 import ItemCheckBox from "../ItemCheckBox";
-import * as Events from "events";
 
 
 /**
@@ -83,15 +82,16 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
 
   return (
     <>
+      <S.Container>
       <S.Node>
         <S.ItemArea>
           <S.PriceArea>
-            <Span styled={{fontSize: '0.8rem', color: Color.darkGrey, display: 'block'}}>
+            <Span styled={{fontSize: '0.9rem', fontWeight:'bold', color: Color.black, display: 'block',margin:'0 0 10px 0'}}>
               {data?.discounts[id].name}
             </Span>
             <Span styled={{fontSize: '0.8rem', color: Color.darkGrey, display: 'block'}}>
               {
-                Object.keys(discountItemCountValue.discountItemLength).sort().map((item, index) =>
+                Object.keys(discountItemCountValue.discountItemLength).map((item, index) =>
                   <span key={item}>
                     {data?.items[item].name || ''}
                     {
@@ -113,7 +113,7 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
               </>
             </Span>
           </S.PriceArea>
-          <Buttons onClick={handleClick}>수정</Buttons>
+          <Buttons onClick={handleClick} styled={{fontSize:'0.8rem'}}>수정</Buttons>
         </S.ItemArea>
       </S.Node>
 
@@ -121,7 +121,7 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
       <PopoverArea title={data?.discounts[id].name || ''} anchorEl={anchorEl} open={open} handleClose={handleClose}>
         <S.Node>
           {Object.keys(discountItemCountValue.discountItemLength).length > 0 ?
-            Object.keys(discountItemCountValue.discountItemLength).sort().map((item, index) =>
+            Object.keys(discountItemCountValue.discountItemLength).map((item, index) =>
                 <ItemCheckBox
                   key={item}
                   label={data?.items[item].name || ''}
@@ -134,8 +134,8 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
                 />
             )
             : <>
-              <Span styled={{display:'block,fontSize:0.7rem'}}>아이템이 없습니다.</Span>
-              <Span styled={{display:'block,fontSize:0.7rem'}}>할인을 삭제 후 다시 담아주세요.</Span></>
+              <Span styled={{display:'block',fontSize:'0.7rem'}}>아이템이 없습니다.</Span>
+              <Span styled={{display:'block',fontSize:'0.7rem'}}>할인을 삭제 후 다시 담아주세요.</Span></>
           }
         </S.Node>
         <S.ButtonArea>
@@ -146,41 +146,10 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
                    styled={{background:Color.white,color:Color.black,fontSize:'0.9rem'}}>확인</Buttons>
         </S.ButtonArea>
       </PopoverArea>
+      </S.Container>
     </>
   )
 }
 
-/**
- *  시술 목록 영역
- *  */
-export const ItemlistInfoArea = ({id}: { id: string }) => {
-  const bucketItemsVal = useRecoilValue(bucketItemsQuery)
-  const [itemEl, setItemEl] = useState<bucketItemType[]>()
-  useEffect(() => {
-    const curVal = bucketItemsVal.filter((item) => item.id === id)
-    setItemEl(curVal)
-  }, [bucketItemsVal])
 
-  return (
-    <>
-      {
-        !!itemEl?.length &&
-        (
-          <S.Node>
-            <S.Title>
-              {itemEl[0]?.name}
-            </S.Title>
-            <S.InfoContainer>
-              <S.PriceArea>
-                <Span styled={{fontSize: '0.8rem', display: 'block'}}>
-                  <span>{Number(itemEl[0]?.price) * Number(itemEl.length)}</span>원
-                </Span>
-              </S.PriceArea>
-            </S.InfoContainer>
-          </S.Node>
-        )
-      }
-    </>
-  )
-}
 

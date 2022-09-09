@@ -11,6 +11,7 @@ const UseCurrency = (price:number)=>{
       return `${price}원`
     case 'USD':
       return `$${price}`
+    return 0
   }
 }
 

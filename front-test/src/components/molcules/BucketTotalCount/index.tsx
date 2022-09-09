@@ -36,7 +36,7 @@ const BucketTotalCount = () =>{
       <Span styled={{fontSize: '0.9rem', color: Color.black}}>
         합계
       </Span>
-      <Span styled={{fontSize: '1.1rem', color: Color.black,fontWeight:500}}>
+      <Span styled={{fontSize: '2rem', color: Color.black,fontWeight:500}}>
         {UseCurrency(calcTotalPrice())}
       </Span>
     </S.TotalArea>

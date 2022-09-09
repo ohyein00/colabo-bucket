@@ -1,22 +1,20 @@
 import React, {useEffect} from "react";
 import * as S from './index.styles'
-import {DiscountInfoArea,ItemlistInfoArea} from "../../molcules/BucketItems";
+import {DiscountInfoArea} from "../../molcules/DiscountInfoArea";
 import {UseItemsApi} from "../../../hooks/UseQueryHooks";
 import {BucketResponse} from "../../../types/bucketItemType";
 import ItemSelectArea from "../ItemSelectArea";
 import {useRecoilValue} from "recoil";
 import {discountItemsQuery} from "../../../recoil/bucket";
-type BucketContainerProps = {
-}
-const BucketContainer = (props: BucketContainerProps) => {
+import {ItemlistInfoArea} from "../../molcules/ItemListInfoArea";
 
+const BucketContainer = () => {
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
-
   const discountItemsValue = useRecoilValue(discountItemsQuery)
+
   return (
     <>
-      <S.Container>
         <S.Container>
           { data &&
             Object.keys(data?.items).map((item) =>
@@ -34,7 +32,6 @@ const BucketContainer = (props: BucketContainerProps) => {
             )
           }
         </S.Container>
-      </S.Container>
     </>
   )
 }

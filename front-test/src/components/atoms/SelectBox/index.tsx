@@ -11,7 +11,7 @@ const SelectBox = ({ value, label, items,onHandleChange }: SelectBoxProps)=>{
   return(
     <FormControl
       sx={{
-        fontSize: '1.4rem',
+        fontSize: '0.85rem',
         width: 70,
       }}
     >
@@ -25,9 +25,9 @@ const SelectBox = ({ value, label, items,onHandleChange }: SelectBoxProps)=>{
         {items?.map((item) => (
           <MenuItem
             sx={{
-              fontSize: '1.4rem',
-              width: 150,
-              padding: '8px 15px',
+              fontSize: '0.85rem',
+              width: 70,
+              padding: '3px 15px',
             }}
             key={item}
             value={item}
