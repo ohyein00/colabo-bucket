@@ -6,7 +6,6 @@ import {BucketResponse} from "../../../types/bucketItemType";
 import ItemSelectArea from "../ItemSelectArea";
 import {useRecoilValue} from "recoil";
 import {discountItemsQuery} from "../../../recoil/bucket";
-import PopoverArea from "../../molcules/PopoverArea";
 type BucketContainerProps = {
 }
 const BucketContainer = (props: BucketContainerProps) => {
@@ -24,7 +23,6 @@ const BucketContainer = (props: BucketContainerProps) => {
               <S.ItemArea key={item}>
                 <ItemlistInfoArea id={item} key={item}/>
                 <ItemSelectArea id={item}/>
-
               </S.ItemArea>
             )
           }
@@ -32,9 +30,6 @@ const BucketContainer = (props: BucketContainerProps) => {
          discountItemsValue.map((item) =>
               <div>
                 <DiscountInfoArea id={item.id} key={item.id}/>
-                <PopoverArea title={item.name}>
-                  dd
-                </PopoverArea>
               </div>
             )
           }

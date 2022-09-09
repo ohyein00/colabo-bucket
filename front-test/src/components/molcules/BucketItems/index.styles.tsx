@@ -18,3 +18,10 @@ export const Node = styled.div`
   padding:10px 0;
   border-bottom:1px solid ${Color.lightGrey};
 `
+export const ItemArea = styled.div`
+display:flex;
+  justify-content: space-between;
+`
+export const ButtonArea = styled.div`
+margin-top:25px;
+`

@@ -4,7 +4,7 @@ import {Color} from "../../../contants/Color";
 
 export type ButtonsProps = {
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   id?: string;
   styled?: React.CSSProperties;
   colorType?:'gray'|'pink'|'purple';

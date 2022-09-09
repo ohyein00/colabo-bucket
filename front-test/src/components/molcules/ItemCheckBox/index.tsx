@@ -9,10 +9,11 @@ type ItemCheckBox = {
   price?: string | number | null;
   rate?: string | number | null;
   checked: boolean;
-  onHandleChange:(event: ChangeEvent<HTMLInputElement>)=>void;
+  itemSize?:number;
+  onHandleChange:(event: ChangeEvent<HTMLInputElement>,arg1?:any)=>void;
 }
 const ItemCheckBox = (props: ItemCheckBox) => {
-  const {label, id, value, price,rate, checked,onHandleChange} = props
+  const {label, id, value, price,rate, checked,onHandleChange,itemSize} = props
   return (
     <>
       <S.Container>
@@ -22,7 +23,7 @@ const ItemCheckBox = (props: ItemCheckBox) => {
                    id={id} type="checkbox" value={value}/>
           <label htmlFor={id}>
             <Span styled={{display: "block", fontWeight: "bold"}}>
-              {label}
+              {label}{itemSize && itemSize>1 &&`X${itemSize}`}
             </Span>
             <Span styled={{display: "inline-block", fontSize: "1.2rem", color:price ? Color.darkGrey : Color.darkPink}}>
               {price || rate}
