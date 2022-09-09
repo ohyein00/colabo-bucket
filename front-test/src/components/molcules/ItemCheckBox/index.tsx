@@ -2,34 +2,23 @@ import React, {SetStateAction, useCallback, ChangeEvent} from "react";
 import Span from "../../atoms/Span";
 import * as S from './index.styles'
 import {Color} from "../../../contants/Color";
-import {DiscountDto, ItemsDto} from "../../../types/bucketItemType";
-
 type ItemCheckBox = {
   label: string;
   id: string;
   value: string;
-  price?: string | null;
-  rate?: number | string | null;
-  setChecked: React.Dispatch<SetStateAction<any>>;
-  checked: string[];
+  price?: string | number | null;
+  rate?: string | number | null;
+  checked: boolean;
+  onHandleChange:(event: ChangeEvent<HTMLInputElement>)=>void;
 }
 const ItemCheckBox = (props: ItemCheckBox) => {
-  const {label, id, value, price,rate, setChecked, checked} = props
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
-    if (e.target.checked) {
-      setChecked([...checked, value])
-    } else {
-      const res = checked.filter((item) => item !== value)
-      setChecked([...res])
-    }
-  }, [checked, setChecked])
+  const {label, id, value, price,rate, checked,onHandleChange} = props
   return (
     <>
       <S.Container>
         <S.InputArea>
-          <S.Input onChange={onChange} name={label}
-                   checked={checked.includes(value)}
+          <S.Input onChange={onHandleChange} name={label}
+                   checked={checked}
                    id={id} type="checkbox" value={value}/>
           <label htmlFor={id}>
             <Span styled={{display: "block", fontWeight: "bold"}}>
@@ -41,7 +30,7 @@ const ItemCheckBox = (props: ItemCheckBox) => {
           </label>
         </S.InputArea>
         <S.Icon>
-          {checked.includes(value) &&
+          {checked &&
             <Span styled={{color: Color.purple}}>
               ✔
             </Span>

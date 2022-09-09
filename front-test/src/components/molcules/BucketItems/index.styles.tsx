@@ -4,11 +4,6 @@ import {Color} from "../../../contants/Color";
 export const Container = styled.div`
   width:100%;
 `
-export const Node = styled.div`
-  width:100%;
-  padding:10px 0;
-  border-bottom:1px solid ${Color.lightGrey};
-`
 export const Title = styled.h5`
   width:100%;
   font-size:0.9rem;
@@ -18,4 +13,8 @@ export const PriceArea = styled.div`
   margin-top:7px;
 `
 export const InfoContainer = styled.div``
-export const SelectArea = styled.div``
+export const Node = styled.div`
+  width:100%;
+  padding:10px 0;
+  border-bottom:1px solid ${Color.lightGrey};
+`

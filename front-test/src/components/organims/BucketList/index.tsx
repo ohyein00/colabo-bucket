@@ -1,38 +1,32 @@
 import React from "react";
 import * as S from './index.styles'
-import {useRecoilCallback, useRecoilSnapshot, useRecoilValue} from "recoil";
-import {calcBucketDiscount, calcItemsBucket, userDiscountBucket, userItemsBucket} from "../../../recoil/bucket";
 import {DiscountInfoArea,ItemlistInfoArea} from "../../molcules/BucketItems";
+import {UseItemsApi} from "../../../hooks/UseQueryHooks";
+import {BucketResponse} from "../../../types/bucketItemType";
+import ItemSelectArea from "../ItemSelectArea";
 type BucketContainerProps = {
 }
-const calTotalCount = (itemList:number[]) =>{
-  return itemList.reduce(function add(sum,curVal){
-    return sum + curVal
-  },0)
-}
-const calDiscount = (total:number,rate:number)=>{
-  return total * (1 - rate)
-}
 const BucketContainer = (props: BucketContainerProps) => {
-  const userItemsBucketValue = useRecoilValue(userItemsBucket)
-  const userDiscountBucketValue = useRecoilValue(userDiscountBucket)
+
+  const {UseGetItemsQuery} = UseItemsApi()
+  const {data} = UseGetItemsQuery<BucketResponse>()
   return (
     <>
       <S.Container>
         <S.Container>
-          {
-            userItemsBucketValue &&
-            Object.keys(userItemsBucketValue).map((item) =>
-              <S.Node key={item}>
+          { data &&
+            Object.keys(data?.items).map((item) =>
+              <div key={item}>
                 <ItemlistInfoArea item={item} key={item}/>
-              </S.Node>
+                <ItemSelectArea item={item}/>
+              </div>
             )
           }
-          {userDiscountBucketValue &&
-            Object.keys(userDiscountBucketValue).map((item) =>
-              <S.Node>
+       { data &&
+            Object.keys(data?.discounts).map((item) =>
+              <div>
                 <DiscountInfoArea key={item} discount={item}/>
-              </S.Node>
+              </div>
             )
           }
         </S.Container>
