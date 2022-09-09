@@ -1,34 +1,61 @@
-import {useRecoilState} from "recoil";
-import {calcItemsBucket} from "../../../recoil/bucket";
 import SelectBox from "../../atoms/SelectBox";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {UseItemsApi} from "../../../hooks/UseQueryHooks";
 import {BucketResponse} from "../../../types/bucketItemType";
 import {SelectChangeEvent} from "@mui/material";
+import {useRecoilState} from "recoil";
+import {bucketItemsQuery, bucketItemType, discountItemsQuery, discountItemType} from "../../../recoil/bucket";
+import Buttons from "../../atoms/Buttons";
+import * as S from './index.styles'
 
-const ItemSelectArea = ({item}: { item: string }) => {
-  const [itemsCountVal, setItemsCountBucket] = useRecoilState(calcItemsBucket(item))
+const ItemSelectArea = ({id}: { id: string }) => {
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
-  const selectItmems = React.useMemo(() => Array.from({length: 10}, (v, i) => i + 1), [])
+  const [bucketItemsVal, setBucketItems] = useRecoilState(bucketItemsQuery)
+  const [discountItems, setDiscountItems] = useRecoilState(discountItemsQuery)
 
+  const selectLength = React.useMemo(() => Array.from({length: 10}, (v, i) => i + 1), [])
+  const [countState, setCountState] = useState<number>(1)
+  const [thisEl, setThisEl] = useState<bucketItemType[]>([])
+
+
+  useEffect(() => {
+    const thisItems = bucketItemsVal.filter(item => item.id === id)
+    setCountState(thisItems?.length || 0)
+    setThisEl(thisItems)
+  },[bucketItemsVal])
   const onHandleChange = (event: SelectChangeEvent<number | string>) => {
     const curNum = Number(event.target.value)
-    setItemsCountBucket({
-        [item]:{
-          ...itemsCountVal[item],
-          totalPrice:Number(data?.items[item].price) * curNum || 0,
-          count: curNum,
-        },
-    })
+    const restItems = bucketItemsVal.filter(item => item.id !== id)
+    if (!!thisEl?.length) {
+      /* 셀렉트된 수 만큼 push */
+      for (let i = 0; i < curNum; i++) {
+        if(data?.items[id]){
+          restItems.push({
+            id: id,
+            name: data?.items[id].name,
+            price: data?.items[id].price,
+          })
+        }
+      }
+    }
+    setBucketItems(restItems)
   };
+  const onHandleClick = ()=>{
+    const restItems = bucketItemsVal.filter(item => item.id !== id)
+    console.log(bucketItemsVal,restItems)
+    setBucketItems(restItems)
+  }
   return (
     <>
       {
-        itemsCountVal[item].count > 0 &&
-        <SelectBox label={data?.items[item].name || ''} items={selectItmems} onHandleChange={onHandleChange}
-                   value={itemsCountVal[item].count || 1}
-        />
+        !!thisEl?.length &&
+        <S.Container>
+          <SelectBox label={data?.items[id].name || ''} items={selectLength} onHandleChange={onHandleChange}
+                     value={countState}
+          />
+          <Buttons onClick={onHandleClick} styled={{border:'1px solid #fff'}}>🗑</Buttons>
+        </S.Container>
       }
     </>
   )

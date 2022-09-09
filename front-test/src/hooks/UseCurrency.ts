@@ -1,6 +1,5 @@
 import {BucketResponse} from "../types/bucketItemType";
 import {useRecoilValue} from "recoil";
-import {calcBucketDiscount, userDiscountBucket} from "../recoil/bucket";
 import {UseItemsApi} from "./UseQueryHooks";
 
 const UseCurrency = (price:number)=>{

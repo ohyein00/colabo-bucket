@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import AddItemTemplate from "../../templates/AddItemTemplate";
 import {BucketResponse, DiscountDto} from "../../types/bucketItemType";
-import {getItems} from "../../service/itemsApi";
 import {UseItemsApi} from "../../hooks/UseQueryHooks";
 
 const DiscountListPage = () => {
@@ -16,3 +15,4 @@ const DiscountListPage = () => {
 }
 
 export default DiscountListPage
+

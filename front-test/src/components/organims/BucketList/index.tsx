@@ -1,31 +1,40 @@
-import React from "react";
+import React, {useEffect} from "react";
 import * as S from './index.styles'
 import {DiscountInfoArea,ItemlistInfoArea} from "../../molcules/BucketItems";
 import {UseItemsApi} from "../../../hooks/UseQueryHooks";
 import {BucketResponse} from "../../../types/bucketItemType";
 import ItemSelectArea from "../ItemSelectArea";
+import {useRecoilValue} from "recoil";
+import {discountItemsQuery} from "../../../recoil/bucket";
+import PopoverArea from "../../molcules/PopoverArea";
 type BucketContainerProps = {
 }
 const BucketContainer = (props: BucketContainerProps) => {
 
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
+
+  const discountItemsValue = useRecoilValue(discountItemsQuery)
   return (
     <>
       <S.Container>
         <S.Container>
           { data &&
             Object.keys(data?.items).map((item) =>
-              <div key={item}>
-                <ItemlistInfoArea item={item} key={item}/>
-                <ItemSelectArea item={item}/>
-              </div>
+              <S.ItemArea key={item}>
+                <ItemlistInfoArea id={item} key={item}/>
+                <ItemSelectArea id={item}/>
+
+              </S.ItemArea>
             )
           }
        { data &&
-            Object.keys(data?.discounts).map((item) =>
+         discountItemsValue.map((item) =>
               <div>
-                <DiscountInfoArea key={item} discount={item}/>
+                <DiscountInfoArea id={item.id} key={item.id}/>
+                <PopoverArea title={item.name}>
+                  dd
+                </PopoverArea>
               </div>
             )
           }

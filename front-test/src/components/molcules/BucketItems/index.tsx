@@ -1,51 +1,53 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as S from './index.styles'
 import Span from "../../atoms/Span";
 import {Color} from "../../../contants/Color";
 import {
-  useRecoilSnapshot,
   useRecoilValue,
 } from "recoil";
 
 import {
-  calcBucketDiscount,
-  calcItemsBucket,
+  bucketItemsQuery, bucketItemType, discountItemCount, discountItemsQuery,
 } from "../../../recoil/bucket";
 import {BucketResponse} from "../../../types/bucketItemType";
 import UseCurrency from "../../../hooks/UseCurrency";
+import {UseItemsApi} from "../../../hooks/UseQueryHooks";
 
-type BucketListProps = {
-  bucketData: BucketResponse | undefined
 
-}
-//할인정보 key를 넘기면 현재 값을 계산해서 넘겨주는 component
-export const DiscountInfoArea = ({discount}: { discount: string }) => {
-  const calcBucketDiscountVal = useRecoilValue(calcBucketDiscount(discount))
-  const snapshot = useRecoilSnapshot();
-
+export const DiscountInfoArea = ({id}: { id: string }) => {
+  const discountItemsValue = useRecoilValue(discountItemsQuery)
+  const discountItemCountValue = useRecoilValue(discountItemCount(id))
+  const {UseGetItemsQuery} = UseItemsApi()
+  const {data} = UseGetItemsQuery<BucketResponse>()
   return (
     <>
       {
-        Number(calcBucketDiscountVal[discount].discountItemList?.length) >0 &&
         <S.Node>
           <S.PriceArea>
             <Span styled={{fontSize: '0.8rem', color: Color.darkGrey, display: 'block'}}>
-              {calcBucketDiscountVal[discount].name}
+              {data?.discounts[id].name}
             </Span>
             <Span styled={{fontSize: '0.8rem', color: Color.darkGrey, display: 'block'}}>
               {
-                calcBucketDiscountVal[discount].discountItemList?.map((item, index) => {
-                  const itemTotalPrice = snapshot.getLoadable(calcItemsBucket(item)).getValue();
-                  const name = itemTotalPrice[item].count > 1 ?
-                    `${itemTotalPrice[item].name}X${itemTotalPrice[item].count}` : `${itemTotalPrice[item].name}`
-                  return index +1 < Number(calcBucketDiscountVal[discount].discountItemList?.length) ? `${name}, `:name
-                })
+                Object.keys(discountItemCountValue.discountItemLength).sort().map((item,index) =>
+                  <>
+                    {data?.items[item].name || ''}
+                    {
+                      discountItemCountValue.discountItemLength[item] >= 1 &&
+                      `X${discountItemCountValue.discountItemLength[item]}`
+                    }
+                    {
+                      index + 1 < Object.keys(discountItemCountValue.discountItemLength).length &&
+                      `, `
+                    }
+                  </>
+                )
               }
             </Span>
             <Span styled={{fontSize: '0.8rem', color: Color.darkPink, display: 'block'}}>
               <>
-                {UseCurrency(calcBucketDiscountVal[discount].totalDiscount)}
-                ({calcBucketDiscountVal[discount].rate}%)
+                {UseCurrency(discountItemCountValue.totalCount)}
+                ({Math.floor(Number(data?.discounts[id].rate) * 100)}%)
               </>
             </Span>
           </S.PriceArea>
@@ -55,21 +57,27 @@ export const DiscountInfoArea = ({discount}: { discount: string }) => {
   )
 }
 //아이템 key를 넘기면 현재 값을 계산해서 넘겨주는 component
-export const ItemlistInfoArea = ({item}: { item: string }) => {
-  const calcItemsBucketVal = useRecoilValue(calcItemsBucket(item))
+export const ItemlistInfoArea = ({id}: { id: string }) => {
+  const bucketItemsVal = useRecoilValue(bucketItemsQuery)
+  const [itemEl, setItemEl] = useState<bucketItemType[]>()
+  useEffect(() => {
+    const curVal = bucketItemsVal.filter((item) => item.id === id)
+    setItemEl(curVal)
+  }, [bucketItemsVal])
+
   return (
     <>
       {
-        calcItemsBucketVal && calcItemsBucketVal[item].count > 0 &&
+        !!itemEl?.length &&
         (
           <S.Node>
             <S.Title>
-              {calcItemsBucketVal[item].name}
+              {itemEl[0]?.name}
             </S.Title>
             <S.InfoContainer>
               <S.PriceArea>
                 <Span styled={{fontSize: '0.8rem', display: 'block'}}>
-                  <span>{calcItemsBucketVal[item].totalPrice}</span>원
+                  <span>{Number(itemEl[0]?.price) * Number(itemEl.length)}</span>원
                 </Span>
               </S.PriceArea>
             </S.InfoContainer>
@@ -79,3 +87,4 @@ export const ItemlistInfoArea = ({item}: { item: string }) => {
     </>
   )
 }
+

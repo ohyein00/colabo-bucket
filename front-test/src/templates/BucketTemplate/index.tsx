@@ -9,8 +9,9 @@ const BucketTemplate = ()=>{
     <>
       <BucketHeader/>
       <BucketList/>
-      <BucketTotalCount/>
+      {/*<BucketTotalCount/>*/}
       <Buttons>버튼이다아아</Buttons>
+      <BucketTotalCount/>
     </>
     )
 

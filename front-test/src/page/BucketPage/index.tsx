@@ -6,6 +6,8 @@ const BucketPage = () => {
   // recoil 장바구니 상태 가져오기
   // recoil 적용된 할인 상태 가져오기
 
+
+
   return (
     <>
 

@@ -12,7 +12,7 @@ const SelectBox = ({ value, label, items,onHandleChange }: SelectBoxProps)=>{
     <FormControl
       sx={{
         fontSize: '1.4rem',
-        width: 150,
+        width: 70,
       }}
     >
       <Select
