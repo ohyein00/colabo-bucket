@@ -12,8 +12,6 @@ const PopoverArea = (props: SeletPopOverType) => {
   const {title, children,open,anchorEl,handleClose} = props
   const id = open ? 'simple-popover' : undefined;
 
-
-
   return (
 
     <Popover

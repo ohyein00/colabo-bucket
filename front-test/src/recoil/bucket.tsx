@@ -20,6 +20,7 @@ export type discountItemListType = {
 }
 
 type DiscountInfoType = {
+  bucketItemLength: { [index: string]: number };
   discountItemLength: { [index: string]: number };
   totalCount: number
 }
@@ -49,7 +50,7 @@ export const discountItemCount = selectorFamily<DiscountInfoType,string>({
     bucketItems.forEach((x) => {
       bucketItemLength[x.id] = (bucketItemLength[x.id] || 0) + 1;
     });
-    console.log(discountItemLength,bucketItemLength)
+
     // 아이템 목록에 없으면 삭제해주기
     Object.keys(discountItemLength).forEach((id)=>{
       if(!bucketItemLength[id]){
@@ -64,7 +65,6 @@ export const discountItemCount = selectorFamily<DiscountInfoType,string>({
      }
    })
 
-    console.log(discountItemLength,bucketItemLength)
     let totalDiscount = 0
     Object.keys(discountItemLength).forEach((id)=>{
       const i = bucketItems.find((item)=>item.id === id)
@@ -73,11 +73,9 @@ export const discountItemCount = selectorFamily<DiscountInfoType,string>({
     })
 
     return{
+      bucketItemLength:bucketItemLength,
       discountItemLength:discountItemLength,
       totalCount:totalDiscount,
     }
   }
 })
-
-
-

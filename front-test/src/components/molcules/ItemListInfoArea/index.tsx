@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import * as S from "../DiscountInfoArea/index.styles";
 import Span from "../../atoms/Span";
 import {Color} from "../../../contants/Color";
+import UseCurrency from "../../../hooks/UseCurrency";
 
 /**
  *  시술 목록 영역
@@ -15,11 +16,11 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
     const curVal = bucketItemsVal.filter((item) => item.id === id)
     setItemEl(curVal)
   }, [bucketItemsVal])
-
+  const itemPrice = UseCurrency(itemEl ? Number(itemEl[0]?.price) * Number(itemEl.length) : 0)
   return (
     <>
       {
-        !!itemEl?.length &&
+        !!itemEl?.length && // 장바구니에 담겨있는 것만
         (
           <S.Node>
             <S.Title>
@@ -30,7 +31,7 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
             <S.InfoContainer>
               <S.PriceArea>
                 <Span styled={{fontSize: '0.8rem', display: 'block'}}>
-                  <span>{Number(itemEl[0]?.price) * Number(itemEl.length)}</span>원
+                  <span>{itemPrice}</span>
                 </Span>
               </S.PriceArea>
             </S.InfoContainer>

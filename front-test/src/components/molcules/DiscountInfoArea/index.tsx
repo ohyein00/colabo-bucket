@@ -8,6 +8,7 @@ import {
 } from "recoil";
 
 import {
+  bucketItemsQuery,
   bucketItemType, discountItemCount, discountItemListType, discountItemsQuery,
 } from "../../../recoil/bucket";
 import {BucketResponse} from "../../../types/bucketItemType";
@@ -22,7 +23,6 @@ import ItemCheckBox from "../ItemCheckBox";
  *  장바구니 할인 정보 영역
  *  */
 export const DiscountInfoArea = ({id}: { id: string }) => {
-  const discountItemsValue = useRecoilValue(discountItemsQuery)
   const discountItemCountValue = useRecoilValue(discountItemCount(id))
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
@@ -46,10 +46,8 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
     if (event.target.checked) {
       const value = event.target.value
       setCheckedState(prevState => [...prevState,value])
-      /*setCheckedState(prevState => prevState.map((box,index) => index === position ? val : box))*/
     } else {
       const value = event.target.value
-      /*setCheckedState(prevState => prevState.map((box,index) => index === position ? '' : box))*/
       const otherItems = checkedState?.filter((item)=>item !== value)
       setCheckedState(otherItems)
     }
@@ -73,10 +71,10 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
     }
     otherItems.push(initialData)
     setDiscountItems(otherItems)
+
+    handleClose()
     //체크가 전부 해제되었다면 바로 닫기
-    if(checkedState.length===0){
-      handleClose()
-    }
+
   },[id,checkedState])
   /* 할인 삭제 */
   const DeleteHandleClick = useCallback(()=>{
@@ -123,8 +121,8 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
       {/* 할인 정보 수정 영역 */}
       <PopoverArea title={data?.discounts[id].name || ''} anchorEl={anchorEl} open={open} handleClose={handleClose}>
         <S.Node>
-          {Object.keys(discountItemCountValue.discountItemLength).length > 0 ?
-            Object.keys(discountItemCountValue.discountItemLength).map((item, index) =>
+          {Object.keys(discountItemCountValue.bucketItemLength).length > 0 ?
+            Object.keys(discountItemCountValue.bucketItemLength).map((item, index) =>
                 <ItemCheckBox
                   key={item}
                   label={data?.items[item].name || ''}
@@ -132,8 +130,8 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
                   value={item}
                   checked={checkedState?.includes(item)}
                   onHandleChange={e=>onHandleChange(e,index)}
-                  itemSize={discountItemCountValue.discountItemLength[item]}
-                  price={Number(data?.items[item].price) * discountItemCountValue.discountItemLength[item]}
+                  itemSize={discountItemCountValue.bucketItemLength[item]}
+                  price={Number(data?.items[item].price) * discountItemCountValue.bucketItemLength[item]}
                 />
             )
             : <>

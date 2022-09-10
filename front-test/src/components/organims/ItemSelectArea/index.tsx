@@ -43,7 +43,7 @@ const ItemSelectArea = ({id}: { id: string }) => {
   };
   const onHandleClick = ()=>{
     const restItems = bucketItemsVal.filter(item => item.id !== id)
-    console.log(bucketItemsVal,restItems)
+
     setBucketItems(restItems)
   }
   return (

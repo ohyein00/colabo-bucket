@@ -9,8 +9,7 @@ const BucketPage = () => {
 
   return (
     <>
-        <BucketTemplate/>
-
+      <BucketTemplate/>
     </>
   )
 }

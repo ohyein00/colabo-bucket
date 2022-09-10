@@ -7,7 +7,7 @@ const DiscountListPage = () => {
   const {data} = UseGetItemsQuery<BucketResponse>()
   return (
     <>
-          <AddItemTemplate discountList={data?.discounts}/>
+     <AddItemTemplate discountList={data?.discounts}/>
     </>
   )
 }
