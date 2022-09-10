@@ -16,7 +16,7 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
     const curVal = bucketItemsVal.filter((item) => item.id === id)
     setItemEl(curVal)
   }, [bucketItemsVal])
-
+  const itemPrice = UseCurrency(itemEl ? Number(itemEl[0]?.price) * Number(itemEl.length) : 0)
   return (
     <>
       {
@@ -31,7 +31,7 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
             <S.InfoContainer>
               <S.PriceArea>
                 <Span styled={{fontSize: '0.8rem', display: 'block'}}>
-                  <span>{UseCurrency(Number(itemEl[0]?.price) * Number(itemEl.length))}</span>
+                  <span>{itemPrice}</span>
                 </Span>
               </S.PriceArea>
             </S.InfoContainer>
