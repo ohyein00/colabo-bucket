@@ -19,7 +19,7 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
   return (
     <>
       {
-        !!itemEl?.length &&
+        !!itemEl?.length && // 장바구니에 담겨있는 것만
         (
           <S.Node>
             <S.Title>

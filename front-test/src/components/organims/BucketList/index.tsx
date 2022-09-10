@@ -24,7 +24,7 @@ const BucketContainer = () => {
               </S.ItemArea>
             )
           }
-       {
+       { data &&
          discountItemsValue.map((item) =>
               <div>
                 <DiscountInfoArea id={item.id} key={item.id}/>

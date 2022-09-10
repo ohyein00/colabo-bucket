@@ -10,6 +10,7 @@ type AddItemTemplateProps = {
 }
 const AddItemTemplate = (props:AddItemTemplateProps) => {
   const {itemList,discountList} = props
+
   return (
     <>
       <S.Wrapper>

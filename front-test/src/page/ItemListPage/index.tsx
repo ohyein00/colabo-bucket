@@ -9,7 +9,7 @@ const ItemListPage = () => {
 
   return (
     <>
-          <AddItemTemplate itemList={data?.items}/>
+      <AddItemTemplate itemList={data?.items}/>
     </>
   )
 }

@@ -1,16 +1,20 @@
-import React, {ChangeEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, SetStateAction, useCallback, useState} from "react";
 import {UseItemsApi} from "../../../hooks/UseQueryHooks";
 import {BucketResponse} from "../../../types/bucketItemType";
 import {useRecoilState} from "recoil";
-import {bucketItemsQuery, bucketItemType} from "../../../recoil/bucket";
+import {bucketItemsQuery, bucketItemType, discountItemListType} from "../../../recoil/bucket";
 import ItemCheckBox from "../../molcules/ItemCheckBox";
+type ItemCheckBoxAreaProps={
+  id: string
+  setBucketItem: React.Dispatch<SetStateAction<bucketItemType[]>>
+  bucketItem: bucketItemType[]
+}
 
-const ItemCheckBoxArea = React.memo((props: { id: string }) => {
-  const {id} = props
+const ItemCheckBoxArea = React.memo((props: ItemCheckBoxAreaProps) => {
+  const {id,setBucketItem,bucketItem} = props
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
-  const [bucketItemsVal, setBucketItems] = useRecoilState(bucketItemsQuery)
-  const [checkState, setCheckState] = useState<boolean>(!!bucketItemsVal.find(item => item.id === id))
+  const [checkState, setCheckState] = useState<boolean>(!!bucketItem.find(item => item.id === id))
 
   const onHandleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 
@@ -22,12 +26,12 @@ const ItemCheckBoxArea = React.memo((props: { id: string }) => {
         price: data?.items[val].price || 0,
       }
       if (initialData) {
-        setBucketItems(currVal => [...currVal, initialData])
+        setBucketItem(currVal => [...currVal, initialData])
       }
       setCheckState(true)
     } else {
-      const restItem = bucketItemsVal.filter((item) => item.id !== event.target.value)
-      setBucketItems(restItem)
+      const restItem = bucketItem.filter((item) => item.id !== event.target.value)
+      setBucketItem(restItem)
       setCheckState(false)
     }
   }, [id])
