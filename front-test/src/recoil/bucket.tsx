@@ -32,6 +32,7 @@ export const discountItemsQuery = atom<discountItemListType[]>({
   key: 'discountItemsQuery',
   default: [],
 });
+
 export const discountItemCount = selectorFamily<DiscountInfoType,string>({
   key:'',
   get:el => ({get})=>{
