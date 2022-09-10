@@ -19,22 +19,20 @@ const ItemListForm = (props: ItemListFormProps) => {
   const [items, setItems] = useRecoilState(bucketItemsQuery)
   const [discountBucketItem,setDiscountBucketItem] = useState<discountItemListType[]>([...discountItems])
   const [bucketItem,setBucketItem] = useState<bucketItemType[]>([...items])
-
+  const minSize = 1
   const onsubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    if(discountList && discountBucketItem.length<3){
-      alert('할인을 3개 이상 담아주세요')
-      return
-    }else{
-      setDiscountItems(discountBucketItem)
-    }
-
-    if(itemList && bucketItem.length<3){
-      alert('시술을 3개 이상 담아주세요')
+    if(itemList && bucketItem.length<minSize){
+      alert(`시술을 ${minSize}개 이상 담아주세요`)
       return
     }else{
       setItems(bucketItem)
+    }
+    if(discountList && discountBucketItem.length<minSize){
+      alert(`할인을 ${minSize}개 이상 담아주세요`)
+      return
+    }else{
+      setDiscountItems(discountBucketItem)
     }
 
     navigate(-1)

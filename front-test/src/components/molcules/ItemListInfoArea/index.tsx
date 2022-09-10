@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import * as S from "../DiscountInfoArea/index.styles";
 import Span from "../../atoms/Span";
 import {Color} from "../../../contants/Color";
+import UseCurrency from "../../../hooks/UseCurrency";
 
 /**
  *  시술 목록 영역
