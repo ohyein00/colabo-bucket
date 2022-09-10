@@ -7,5 +7,5 @@ export const Wrapper = styled.div`
   height:100vh;
   overflow:auto;
   margin:0px auto;
-  
+  padding:20px;
 `
