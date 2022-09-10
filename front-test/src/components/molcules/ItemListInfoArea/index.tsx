@@ -31,7 +31,7 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
             <S.InfoContainer>
               <S.PriceArea>
                 <Span styled={{fontSize: '0.8rem', display: 'block'}}>
-                  <span>{Number(itemEl[0]?.price) * Number(itemEl.length)}</span>원
+                  <span>{UseCurrency(Number(itemEl[0]?.price) * Number(itemEl.length))}</span>
                 </Span>
               </S.PriceArea>
             </S.InfoContainer>
