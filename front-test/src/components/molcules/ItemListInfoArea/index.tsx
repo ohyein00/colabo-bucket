@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import * as S from "../DiscountInfoArea/index.styles";
 import Span from "../../atoms/Span";
 import {Color} from "../../../contants/Color";
+import UseCurrency from "../../../hooks/UseCurrency";
 
 /**
  *  시술 목록 영역
@@ -30,7 +31,7 @@ export const ItemlistInfoArea = ({id}: { id: string }) => {
             <S.InfoContainer>
               <S.PriceArea>
                 <Span styled={{fontSize: '0.8rem', display: 'block'}}>
-                  <span>{Number(itemEl[0]?.price) * Number(itemEl.length)}</span>원
+                  <span>{UseCurrency(Number(itemEl[0]?.price) * Number(itemEl.length))}</span>
                 </Span>
               </S.PriceArea>
             </S.InfoContainer>
