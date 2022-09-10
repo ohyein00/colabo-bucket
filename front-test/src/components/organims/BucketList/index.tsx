@@ -19,15 +19,15 @@ const BucketContainer = () => {
           { data &&
             Object.keys(data?.items).map((item) =>
               <S.ItemArea key={item}>
-                <ItemlistInfoArea id={item} key={item}/>
+                <ItemlistInfoArea id={item}/>
                 <ItemSelectArea id={item}/>
               </S.ItemArea>
             )
           }
        { data &&
          discountItemsValue.map((item) =>
-              <div>
-                <DiscountInfoArea id={item.id} key={item.id}/>
+              <div key={item.id}>
+                <DiscountInfoArea id={item.id}/>
               </div>
             )
           }

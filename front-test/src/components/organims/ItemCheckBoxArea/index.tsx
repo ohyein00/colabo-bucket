@@ -14,7 +14,11 @@ const ItemCheckBoxArea = React.memo((props: ItemCheckBoxAreaProps) => {
   const {id,setBucketItem,bucketItem} = props
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
-  const [checkState, setCheckState] = useState<boolean>(!!bucketItem.find(item => item.id === id))
+  const [checkState, setCheckState] = useState<boolean>(false)
+
+  React.useEffect(()=>{
+    setCheckState(!!bucketItem.find(item => item.id === id))
+  },[bucketItem])
 
   const onHandleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 
@@ -30,9 +34,9 @@ const ItemCheckBoxArea = React.memo((props: ItemCheckBoxAreaProps) => {
       }
       setCheckState(true)
     } else {
-      const restItem = bucketItem.filter((item) => item.id !== event.target.value)
-      setBucketItem(restItem)
+      setBucketItem(prevState => prevState.filter(item=>item.id !== id))
       setCheckState(false)
+
     }
   }, [id])
 

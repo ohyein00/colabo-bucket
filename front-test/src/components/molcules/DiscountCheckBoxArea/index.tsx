@@ -15,7 +15,10 @@ const DiscountCheckBoxArea = (props:DiscountCheckBoxAreaProps) => {
   const {UseGetItemsQuery} = UseItemsApi()
   const {data} = UseGetItemsQuery<BucketResponse>()
   const bucketItemsVal = useRecoilValue(bucketItemsQuery)
-  const [checkState, setCheckState] = useState<boolean>(!!discountBucketItem.find(item => item.id === id))
+  const [checkState, setCheckState] = useState<boolean>(false)
+  React.useEffect(()=>{
+    setCheckState(!!discountBucketItem.find(item => item.id === id))
+  },[discountBucketItem])
 
   const onHandleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -27,11 +30,9 @@ const DiscountCheckBoxArea = (props:DiscountCheckBoxAreaProps) => {
         discountItems: [...bucketItemsVal] //담는 기준 현재 장바구니 기본 셋팅
       }
       setDiscountBucketItem(currVal => [...currVal, initialData])
-
       setCheckState(true)
     } else {
-      const restItem = discountBucketItem.filter((item) => item.id !== event.target.value)
-      setDiscountBucketItem(restItem)
+      setDiscountBucketItem(prevState => prevState.filter(item=>item.id !== id))
       setCheckState(false)
     }
   }, [id])
@@ -42,7 +43,6 @@ const DiscountCheckBoxArea = (props:DiscountCheckBoxAreaProps) => {
         label={data?.discounts[id].name || ''}
         id={id}
         value={id}
-
         checked={checkState}
         onHandleChange={onHandleChange}
         rate={data?.discounts[id].rate || 0}

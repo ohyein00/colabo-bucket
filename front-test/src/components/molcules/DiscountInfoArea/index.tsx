@@ -46,10 +46,8 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
     if (event.target.checked) {
       const value = event.target.value
       setCheckedState(prevState => [...prevState,value])
-      /*setCheckedState(prevState => prevState.map((box,index) => index === position ? val : box))*/
     } else {
       const value = event.target.value
-      /*setCheckedState(prevState => prevState.map((box,index) => index === position ? '' : box))*/
       const otherItems = checkedState?.filter((item)=>item !== value)
       setCheckedState(otherItems)
     }
