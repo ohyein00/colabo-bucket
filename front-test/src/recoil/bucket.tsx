@@ -20,6 +20,7 @@ export type discountItemListType = {
 }
 
 type DiscountInfoType = {
+  bucketItemLength: { [index: string]: number };
   discountItemLength: { [index: string]: number };
   totalCount: number
 }
@@ -32,7 +33,6 @@ export const discountItemsQuery = atom<discountItemListType[]>({
   key: 'discountItemsQuery',
   default: [],
 });
-
 export const discountItemCount = selectorFamily<DiscountInfoType,string>({
   key:'',
   get:el => ({get})=>{
@@ -73,11 +73,9 @@ export const discountItemCount = selectorFamily<DiscountInfoType,string>({
     })
 
     return{
+      bucketItemLength:bucketItemLength,
       discountItemLength:discountItemLength,
       totalCount:totalDiscount,
     }
   }
 })
-
-
-
