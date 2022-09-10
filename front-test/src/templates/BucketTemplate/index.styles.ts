@@ -19,3 +19,13 @@ export const BottomArea = styled.div`
 export const TopArea = styled.div`
   width:100%;
 `
+
+export const Wrapper = styled.div`
+  position:relative;
+  width:100%;
+  max-width:420px;
+  height:100vh;
+  overflow:auto;
+  margin:0px auto;
+  
+`

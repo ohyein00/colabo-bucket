@@ -3,6 +3,7 @@ import {Color} from "../../../contants/Color";
 
 export const Inner = styled.div`
   padding:15px;
+  max-width:300px;
 `
 export const Title = styled.div`
   font-size:1rem;

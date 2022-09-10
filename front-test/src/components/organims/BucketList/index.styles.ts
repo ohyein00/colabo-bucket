@@ -8,4 +8,8 @@ export const Container = styled.div`
 export const ItemArea = styled.div`
   display:flex;
   justify-content: space-between;
+  align-items: center;
+  .MuiSelect-select{
+    padding:8px 5px;
+  }
 `

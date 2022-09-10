@@ -56,6 +56,7 @@ export const discountItemCount = selectorFamily<DiscountInfoType,string>({
         delete discountItemLength[id]
       }
     })
+
     // 아이템 목록 업데이트시 동기화
    Object.keys(discountItemLength).forEach((id)=>{
      if((!!bucketItemLength[id] && !!discountItemLength[id]) && (bucketItemLength[id] !== discountItemLength[id])){
@@ -67,12 +68,13 @@ export const discountItemCount = selectorFamily<DiscountInfoType,string>({
     let totalDiscount = 0
     Object.keys(discountItemLength).forEach((id)=>{
       const i = bucketItems.find((item)=>item.id === id)
-      totalDiscount -= Number(i?.price) * Number(discountItemLength[id] || 0)  * Number(discountEl?.rate)
+      const price = Number(i?.price) * Number(discountItemLength[id] || 0)  * Number(discountEl?.rate)
+      totalDiscount -= Math.floor(price)
     })
 
     return{
       discountItemLength:discountItemLength,
-      totalCount:Math.floor(totalDiscount),
+      totalCount:totalDiscount,
     }
   }
 })

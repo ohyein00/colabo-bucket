@@ -4,8 +4,7 @@ export const Container = styled.div`
   display:flex;
   justify-content: space-between;
   align-items: center;
-  padding-right:15px;
-  padding-bottom:10px;
+  padding:10px 15px 10px 0;
   border-bottom:1px solid #efefef;
 `
 export const InputArea = styled.div`
@@ -15,6 +14,8 @@ export const InputArea = styled.div`
   }
 `
 export const Input = styled.input`
+  position:absolute;
+  left:-10000px;
   width: 0;
   height: 0;
   visibility: hidden;

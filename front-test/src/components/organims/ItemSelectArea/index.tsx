@@ -54,7 +54,7 @@ const ItemSelectArea = ({id}: { id: string }) => {
           <SelectBox label={data?.items[id].name || ''} items={selectLength} onHandleChange={onHandleChange}
                      value={countState}
           />
-          <Buttons onClick={onHandleClick} styled={{border:'1px solid #fff'}}>🗑</Buttons>
+          <Buttons onClick={onHandleClick} styled={{border:'1px solid #fff',margin:'0 0 0 10px'}}colorType="gray">🗑</Buttons>
         </S.Container>
       }
     </>

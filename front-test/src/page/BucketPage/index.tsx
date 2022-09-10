@@ -1,20 +1,15 @@
 import React, {useState} from "react";
-import * as S from './index.styles'
 import BucketTemplate from "../../templates/BucketTemplate";
+import {UseItemsApi} from "../../hooks/UseQueryHooks";
+import {BucketResponse} from "../../types/bucketItemType";
 
 const BucketPage = () => {
-  // recoil 장바구니 상태 가져오기
-  // recoil 적용된 할인 상태 가져오기
-
-
+  const {UseGetItemsQuery} = UseItemsApi()
+  const {data} = UseGetItemsQuery<BucketResponse>()
 
   return (
     <>
-      <S.Wrapper>
-      <S.Container>
         <BucketTemplate/>
-      </S.Container>
-      </S.Wrapper>
 
     </>
   )

@@ -54,6 +54,7 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
       setCheckedState(otherItems)
     }
   },[id,checkedState])
+
   /* 체크 항목들을 새로 넘겨주기 */
   const SubmitHandleClick = useCallback(()=>{
     const newDiscountList:bucketItemType[] = checkedState?.filter((item)=>item !== '').map((item)=>(
@@ -72,10 +73,12 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
     }
     otherItems.push(initialData)
     setDiscountItems(otherItems)
+    //체크가 전부 해제되었다면 바로 닫기
     if(checkedState.length===0){
       handleClose()
     }
   },[id,checkedState])
+  /* 할인 삭제 */
   const DeleteHandleClick = useCallback(()=>{
     setDiscountItems(currVal => currVal.filter(item=>item.id !== id))
   },[])
@@ -113,7 +116,7 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
               </>
             </Span>
           </S.PriceArea>
-          <Buttons onClick={handleClick} styled={{fontSize:'0.8rem'}}>수정</Buttons>
+          <Buttons onClick={handleClick} styled={{fontSize:'0.8rem',width:'100px'}}>수정</Buttons>
         </S.ItemArea>
       </S.Node>
 

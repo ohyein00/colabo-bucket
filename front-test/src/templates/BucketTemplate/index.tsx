@@ -4,8 +4,11 @@ import BucketList from "../../components/organims/BucketList";
 import BucketHeader from "../../components/organims/BucketHeader";
 import Buttons from "../../components/atoms/Buttons";
 import * as S from './index.styles'
+import {Wrapper} from "./index.styles";
+
 const BucketTemplate = ()=>{
   return(
+    <S.Wrapper>
     <S.Container>
       <S.TopArea>
       <BucketHeader/>
@@ -18,6 +21,7 @@ const BucketTemplate = ()=>{
 
       </S.BottomArea>
     </S.Container>
+    </S.Wrapper>
     )
 
 }

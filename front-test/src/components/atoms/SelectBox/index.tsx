@@ -21,6 +21,9 @@ const SelectBox = ({ value, label, items,onHandleChange }: SelectBoxProps)=>{
         value={value}
         onChange={onHandleChange}
         defaultValue={value}
+        sx={{
+          padding:0
+        }}
       >
         {items?.map((item) => (
           <MenuItem

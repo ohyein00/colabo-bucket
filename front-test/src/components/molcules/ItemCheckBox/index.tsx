@@ -1,4 +1,4 @@
-import React, {SetStateAction, useCallback, ChangeEvent} from "react";
+import React, { ChangeEvent} from "react";
 import Span from "../../atoms/Span";
 import * as S from './index.styles'
 import {Color} from "../../../contants/Color";
@@ -34,7 +34,7 @@ const ItemCheckBox = (props: ItemCheckBox) => {
         </S.InputArea>
         <S.Icon>
           {checked &&
-            <Span styled={{color: Color.purple,fontSize:'1.3rem'}}>
+            <Span styled={{color: Color.purple,fontSize:'1.3rem',display:'inline-block',margin:'0 0 0 15px'}}>
               ✔
             </Span>
           }
