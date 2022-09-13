@@ -30,9 +30,10 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
   const open = Boolean(anchorEl);
   const [discountItems, setDiscountItems] = useRecoilState(discountItemsQuery)
   const [checkedState, setCheckedState] = useState<string[]>([]);
-  useEffect(()=>{
+
+  useEffect(() => {
     setCheckedState([...Object.keys(discountItemCountValue.discountItemLength)])
-  },[discountItemCountValue])
+  }, [discountItemCountValue])
   /* popover 핸들러 */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,112 +45,123 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
   };
 
   /* 할인 대상 체크박스 핸들러 */
-  const onHandleChange = useCallback((event: ChangeEvent<HTMLInputElement>,position:number) => {
+  const onHandleChange = useCallback((event: ChangeEvent<HTMLInputElement>, position: number) => {
     if (event.target.checked) {
       const value = event.target.value
-      setCheckedState(prevState => [...prevState,value])
+      setCheckedState(prevState => [...prevState, value])
     } else {
       const value = event.target.value
-      const otherItems = checkedState?.filter((item)=>item !== value)
+      const otherItems = checkedState?.filter((item) => item !== value)
       setCheckedState(otherItems)
     }
-  },[id,checkedState])
+  }, [id, checkedState])
 
   /* 체크 항목들을 새로 넘겨주기 */
-  const SubmitHandleClick = useCallback(()=>{
-    const newDiscountList:bucketItemType[] = checkedState?.filter((item)=>item !== '').map((item)=>(
+  const SubmitHandleClick = useCallback(() => {
+    const newDiscountList: bucketItemType[] = checkedState?.filter((item) => item !== '').map((item) => (
       {
-        id:  item,
-        name:  data?.items[item].name || '',
-        price:  Number(data?.items[item].price || 0),
+        id: item,
+        name: data?.items[item].name || '',
+        price: Number(data?.items[item].price || 0),
       }
     )) || []
-    const otherItems = discountItems.filter((item)=>item.id !== id)
-    const initialData:discountItemListType = {
-      id:id,
+
+    // const otherItems = discountItems.filter((item)=>item.id !== id)
+    const thisDiscountItemIndex = discountItems.findIndex((item) => item.id == id)
+    console.log(thisDiscountItemIndex)
+    const initialData: discountItemListType = {
+      id: id,
       name: data?.discounts[id].name || '',
-      rate:Number(data?.discounts[id].rate || 0),
+      rate: Number(data?.discounts[id].rate || 0),
       discountItems: newDiscountList || [],
-  }
-    otherItems.push(initialData)
-    setDiscountItems(otherItems)
+    }
+    const prevDiscountItems = [...discountItems]
+    prevDiscountItems.splice(thisDiscountItemIndex, 1, initialData)
+    //otherItems.push(initialData)
+    setDiscountItems(prevDiscountItems)
     setCheckedState([...Object.keys(discountItemCountValue.discountItemLength)])
 
     handleClose()
     //체크가 전부 해제되었다면 바로 닫기
 
-  },[id,checkedState])
+  }, [id, checkedState])
   /* 할인 삭제 */
-  const DeleteHandleClick = useCallback(()=>{
-    setDiscountItems(currVal => currVal.filter(item=>item.id !== id))
-  },[])
+  const DeleteHandleClick = useCallback(() => {
+    setDiscountItems(currVal => currVal.filter(item => item.id !== id))
+  }, [])
 
   return (
     <>
       <S.Container>
-      <S.Node>
-        <S.ItemArea>
-          <S.PriceArea>
-            <Span styled={{fontSize: '0.9rem', fontWeight:'bold', color: Color.black, display: 'block',margin:'0 0 10px 0'}}>
-              {data?.discounts[id].name}
-            </Span>
-            <Span styled={{fontSize: '0.8rem', color: Color.darkGrey, display: 'block'}}>
-              {
-                Object.keys(discountItemCountValue.discountItemLength).map((item, index) =>
-                  <span key={item}>
-                    {data?.items[item].name || ''}
-                    {
-                      discountItemCountValue.discountItemLength[item] >= 1 &&
-                      `X${discountItemCountValue.discountItemLength[item]}`
-                    }
-                    {
-                      index + 1 < Object.keys(discountItemCountValue.discountItemLength).length &&
-                      `, `
-                    }
-                  </span>
-                )
-              }
-            </Span>
-            <Span styled={{fontSize: '0.8rem', color: Color.darkPink, display: 'block'}}>
-              <>
-                {UseCurrency(discountItemCountValue.totalCount)}
-                ({Math.floor(Number(data?.discounts[id].rate) * 100)}%)
-              </>
-            </Span>
-          </S.PriceArea>
-          <Buttons onClick={handleClick} styled={{fontSize:'0.8rem',width:'100px'}}>수정</Buttons>
-        </S.ItemArea>
-      </S.Node>
-
-      {/* 할인 정보 수정 영역 */}
-      <PopoverArea title={data?.discounts[id].name || ''} anchorEl={anchorEl} open={open} handleClose={handleClose}>
         <S.Node>
-          {Object.keys(discountItemCountValue.bucketItemLength).length > 0 ?
-            Object.keys(discountItemCountValue.bucketItemLength).map((item, index) =>
+          <S.ItemArea>
+            <S.PriceArea>
+              <Span styled={{
+                fontSize: '0.9rem',
+                fontWeight: 'bold',
+                color: Color.black,
+                display: 'block',
+                margin: '0 0 10px 0'
+              }}>
+                {data?.discounts[id].name}
+              </Span>
+              <Span styled={{fontSize: '0.8rem', color: Color.darkGrey, display: 'block'}}>
+                {
+                  Object.keys(discountItemCountValue.discountItemLength).map((item, index) =>
+                      <span key={item}>
+                    {data?.items[item].name || ''}
+                        {
+                          discountItemCountValue.discountItemLength[item] >= 1 &&
+                          `X${discountItemCountValue.discountItemLength[item]}`
+                        }
+                        {
+                          index + 1 < Object.keys(discountItemCountValue.discountItemLength).length &&
+                          `, `
+                        }
+                  </span>
+                  )
+                }
+              </Span>
+              <Span styled={{fontSize: '0.8rem', color: Color.darkPink, display: 'block'}}>
+                <>
+                  {UseCurrency(discountItemCountValue.totalCount)}
+                  ({Math.floor(Number(data?.discounts[id].rate) * 100)}%)
+                </>
+              </Span>
+            </S.PriceArea>
+            <Buttons onClick={handleClick} styled={{fontSize: '0.8rem', width: '100px'}}>수정</Buttons>
+          </S.ItemArea>
+        </S.Node>
+
+        {/* 할인 정보 수정 영역 */}
+        <PopoverArea title={data?.discounts[id].name || ''} anchorEl={anchorEl} open={open} handleClose={handleClose}>
+          <S.Node>
+            {Object.keys(discountItemCountValue.bucketItemLength).length > 0 ?
+              Object.keys(discountItemCountValue.bucketItemLength).map((item, index) =>
                 <ItemCheckBox
                   key={item}
                   label={data?.items[item].name || ''}
                   id={item}
                   value={item}
                   checked={checkedState?.includes(item)}
-                  onHandleChange={e=>onHandleChange(e,index)}
+                  onHandleChange={e => onHandleChange(e, index)}
                   itemSize={discountItemCountValue.bucketItemLength[item]}
                   price={Number(data?.items[item].price) * discountItemCountValue.bucketItemLength[item]}
                 />
-            )
-            : <>
-              <Span styled={{display:'block',fontSize:'0.7rem'}}>아이템이 없습니다.</Span>
-              <Span styled={{display:'block',fontSize:'0.7rem'}}>할인을 삭제 후 다시 담아주세요.</Span></>
-          }
-        </S.Node>
-        <S.ButtonArea>
-          <Buttons onClick={DeleteHandleClick}
-            styled={{background:Color.white,color:Color.black,fontSize:'0.9rem'}}>삭제</Buttons>
-          <Buttons onClick={SubmitHandleClick}
-                   type="button"
-                   styled={{background:Color.white,color:Color.black,fontSize:'0.9rem'}}>확인</Buttons>
-        </S.ButtonArea>
-      </PopoverArea>
+              )
+              : <>
+                <Span styled={{display: 'block', fontSize: '0.7rem'}}>아이템이 없습니다.</Span>
+                <Span styled={{display: 'block', fontSize: '0.7rem'}}>할인을 삭제 후 다시 담아주세요.</Span></>
+            }
+          </S.Node>
+          <S.ButtonArea>
+            <Buttons onClick={DeleteHandleClick}
+                     styled={{background: Color.white, color: Color.black, fontSize: '0.9rem'}}>삭제</Buttons>
+            <Buttons onClick={SubmitHandleClick}
+                     type="button"
+                     styled={{background: Color.white, color: Color.black, fontSize: '0.9rem'}}>확인</Buttons>
+          </S.ButtonArea>
+        </PopoverArea>
       </S.Container>
     </>
   )
