@@ -29,8 +29,10 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const [discountItems, setDiscountItems] = useRecoilState(discountItemsQuery)
-  const [checkedState, setCheckedState] = useState<string[]>([...Object.keys(discountItemCountValue.discountItemLength)]);
-
+  const [checkedState, setCheckedState] = useState<string[]>([]);
+  useEffect(()=>{
+    setCheckedState([...Object.keys(discountItemCountValue.discountItemLength)])
+  },[discountItemCountValue])
   /* popover 핸들러 */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -68,9 +70,10 @@ export const DiscountInfoArea = ({id}: { id: string }) => {
       name: data?.discounts[id].name || '',
       rate:Number(data?.discounts[id].rate || 0),
       discountItems: newDiscountList || [],
-    }
+  }
     otherItems.push(initialData)
     setDiscountItems(otherItems)
+    setCheckedState([...Object.keys(discountItemCountValue.discountItemLength)])
 
     handleClose()
     //체크가 전부 해제되었다면 바로 닫기
